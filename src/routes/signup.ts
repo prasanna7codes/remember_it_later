@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import {UserModel} from '../db'
+import bcrypt from "bcrypt";
 
 const signupRouter = Router();
 
@@ -25,18 +26,23 @@ signupRouter.post('/', async (req,res) => {
   
 
   //checking if the user exists 
-   const user = await UserModel.findOne({username});
-   
+  const user = await UserModel.findOne({username});
 
   if(user) {
 
-    res.status(403).json({"message":"user already exists"});
-
+res.status(403).json({
+            message: "This email is alredy existing in our database" }) 
+return 
   }
   else {
+// hashing the password and then storing in the database 
+    const hash = bcrypt.hashSync(password,5);
+
+    
     await UserModel.create({
-    username,password
+    username,password:hash
   })
+    res.send("you are signed up ")
 
   }
     
