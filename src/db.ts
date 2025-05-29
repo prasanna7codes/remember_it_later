@@ -5,6 +5,8 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
 });
 
+//create the content table next
+
 const UserModel = mongoose.model('User', userSchema);
 
 export { UserModel };

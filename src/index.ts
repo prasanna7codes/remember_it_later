@@ -1,6 +1,8 @@
 import express from 'express';
 import signupRouter from './routes/signup';
 import signinRouter from './routes/signin';
+import contentRouter from './routes/content';
+
 
 import dotenv from 'dotenv';
 import mongoose from 'mongoose'
@@ -14,6 +16,8 @@ app.use(express.json());
 
 app.use('/signup', signupRouter);
 app.use('/signin', signinRouter);
+app.use('/content', contentRouter);
+
 
 
 

@@ -9,5 +9,6 @@ const userSchema = new mongoose_1.default.Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
 });
+//create the content table next
 const UserModel = mongoose_1.default.model('User', userSchema);
 exports.UserModel = UserModel;
