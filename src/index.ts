@@ -1,5 +1,7 @@
 import express from 'express';
 import signupRouter from './routes/signup';
+import signinRouter from './routes/signin';
+
 import dotenv from 'dotenv';
 import mongoose from 'mongoose'
 
@@ -11,6 +13,8 @@ app.use(express.json());
 
 
 app.use('/signup', signupRouter);
+app.use('/signin', signinRouter);
+
 
 
 const uri = process.env.MONGODB;

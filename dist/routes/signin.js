@@ -13,36 +13,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const db_1 = require("../db");
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const signupRouter = (0, express_1.Router)();
-signupRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const username = req.body.name;
-    const password = req.body.password;
-    //checking the username and password criteria are met 
-    if (!/^[a-zA-Z]{3,10}$/.test(username)) {
-        res.status(411).json({ message: 'Username must be 3–10 letters only' });
-    }
-    if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/.test(password)) {
-        res.status(411).json({
-            message: 'Password must be 8–20 characters, include one uppercase, one lowercase, one number, and one special character',
-        });
-    }
-    //checking if the user exists 
+const signinRouter = (0, express_1.Router)();
+const jwt_secret = "hello";
+signinRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username, password } = req.body;
     const user = yield db_1.UserModel.findOne({ username });
     if (user) {
-        res.status(403).json({
-            message: "This email is alredy existing in our database"
-        });
-        return;
+        const present = bcrypt_1.default.compareSync(password, user.password);
+        if (present) {
+            const token = jsonwebtoken_1.default.sign(username, jwt_secret);
+            res.json({
+                "token": token
+            });
+        }
+        else {
+            res.json({
+                "message": "invalid password"
+            });
+        }
     }
     else {
-        // hashing the password and then storing in the database 
-        const hash = bcrypt_1.default.hashSync(password, 5);
-        yield db_1.UserModel.create({
-            username, password: hash
+        res.json({
+            "message": "user does not exist "
         });
-        res.send("you are signed up ");
     }
 }));
-exports.default = signupRouter;
+exports.default = signinRouter;

@@ -45,14 +45,7 @@ return
     res.send("you are signed up ")
 
   }
-    
 
-
-
-    
-
-
-  
 });
 
 export default signupRouter;

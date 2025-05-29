@@ -14,12 +14,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const signup_1 = __importDefault(require("./routes/signup"));
+const signin_1 = __importDefault(require("./routes/signin"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const mongoose_1 = __importDefault(require("mongoose"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use('/signup', signup_1.default);
+app.use('/signin', signin_1.default);
 const uri = process.env.MONGODB;
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
