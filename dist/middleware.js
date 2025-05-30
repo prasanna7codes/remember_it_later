@@ -19,7 +19,7 @@ function middleware(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const token = req.headers.token;
-            const decoded = jsonwebtoken_1.default.verify(token, jwt_secret);
+            const decoded = jsonwebtoken_1.default.verify(token, jwt_secret); // i will get the data that i put during the jwt sign
             if (decoded) {
                 const user = yield db_1.UserModel.findById(decoded._id);
                 if (!user) {
