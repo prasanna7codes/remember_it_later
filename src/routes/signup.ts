@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
 const signupRouter = Router();
 
 signupRouter.post('/', async (req,res) => {
-    const username= req.body.name;
+    const username= req.body.username;
     const password= req.body.password;
 
     //checking the username and password criteria are met 

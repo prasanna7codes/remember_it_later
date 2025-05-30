@@ -1,28 +1,35 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
-const jwt_secret="hello";
+import { UserModel } from './db';
+const jwt_secret = "hello";
+
 
 declare module 'express-serve-static-core' {
   interface Request {
-    username?: string;
+    userId?: string;
   }
 }
 
 
 
-function middleware(req :Request, res: Response, next: NextFunction){
-            const token = req.headers.token as string;
-            const decoded= jwt.verify(token,jwt_secret) as { username: string };
-            
-             if(decoded){
-               req.username = decoded.username ;
-                next()
-             }
+async function middleware(req: Request, res: Response, next: NextFunction) {
+  try {
+    const token = req.headers.token as string;
+    const decoded = jwt.verify(token, jwt_secret) as { _id: string };// i will get the data that i put during the jwt sign
 
-             else {
-                res.send("invalid token")
-             }
+    if (decoded) {
+      const user = await UserModel.findById(decoded._id);
+      if (!user) {
+        return res.status(401).send("User not found");
+      }
+      req.userId = user._id.toString();
+      return next();
+    } else {
+      return res.status(401).send("Invalid token");
+    }
+  } catch (err) {
+    return res.status(401).send("Invalid token");
+  }
 }
-
 
 export default middleware;

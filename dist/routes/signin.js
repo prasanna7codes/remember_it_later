@@ -24,7 +24,7 @@ signinRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function*
     if (user) {
         const present = bcrypt_1.default.compareSync(password, user.password);
         if (present) {
-            const token = jsonwebtoken_1.default.sign(username, jwt_secret);
+            const token = jsonwebtoken_1.default.sign({ _id: user._id }, jwt_secret);
             res.json({
                 "token": token
             });

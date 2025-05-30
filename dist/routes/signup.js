@@ -17,7 +17,7 @@ const db_1 = require("../db");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const signupRouter = (0, express_1.Router)();
 signupRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const username = req.body.name;
+    const username = req.body.username;
     const password = req.body.password;
     //checking the username and password criteria are met 
     if (!/^[a-zA-Z]{3,10}$/.test(username)) {
