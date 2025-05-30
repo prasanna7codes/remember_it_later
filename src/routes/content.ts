@@ -37,12 +37,12 @@ contentRouter.get('/view_me',async (req,res)=>{
 
 })
 
-
+//updating one content at a time
 contentRouter.put('/update_content',async (req,res)=>{
 
     const {contentId,link,type,title}=req.body;
     const result = await ContentModel.findOneAndUpdate(
-      { _id:contentId, userId: req.userId }, 
+      { _id:contentId, userId: req.userId }, //this will check for the excat _id in the table and see if the user owns that or not 
       { link, type, title }
     );
  
@@ -53,6 +53,26 @@ contentRouter.put('/update_content',async (req,res)=>{
 
 
 })
+
+
+contentRouter.delete('/delete_content',async (req,res)=>{
+
+    const {contentId}=req.body;
+    const result = await ContentModel.findOneAndDelete(
+      { _id:contentId,
+        userId: req.userId }, //this will check for the excat _id in the table and see if the user owns that or not 
+      
+    );
+ 
+
+        res.json({ message: 'Content deleted successfully' });
+
+
+
+})
+
+
+
 
 
 

@@ -34,11 +34,19 @@ contentRouter.get('/view_me', (req, res) => __awaiter(void 0, void 0, void 0, fu
     const result = yield db_1.ContentModel.find({ userId: id });
     res.json({ result });
 }));
+//updating one content at a time
 contentRouter.put('/update_content', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { contentId, link, type, title } = req.body;
-    const result = yield db_1.ContentModel.updateMany({ _id: contentId, userId: req.userId }, { link, type, title });
+    const result = yield db_1.ContentModel.findOneAndUpdate({ _id: contentId, userId: req.userId }, //this will check for the excat _id in the table and see if the user owns that or not 
+    { link, type, title });
     res.json({
-        message: 'All user content updated successfully'
+        message: 'one  content updated successfully'
     });
+}));
+contentRouter.delete('/delete_content', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { contentId } = req.body;
+    const result = yield db_1.ContentModel.findOneAndDelete({ _id: contentId,
+        userId: req.userId });
+    res.json({ message: 'Content deleted successfully' });
 }));
 exports.default = contentRouter;
