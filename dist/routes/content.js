@@ -35,8 +35,8 @@ contentRouter.get('/view_me', (req, res) => __awaiter(void 0, void 0, void 0, fu
     res.json({ result });
 }));
 contentRouter.put('/update_content', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { link, type, title } = req.body;
-    const result = yield db_1.ContentModel.updateMany({ userId: req.userId }, { link, type, title });
+    const { contentId, link, type, title } = req.body;
+    const result = yield db_1.ContentModel.updateMany({ _id: contentId, userId: req.userId }, { link, type, title });
     res.json({
         message: 'All user content updated successfully'
     });

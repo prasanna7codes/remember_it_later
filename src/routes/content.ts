@@ -40,15 +40,15 @@ contentRouter.get('/view_me',async (req,res)=>{
 
 contentRouter.put('/update_content',async (req,res)=>{
 
-    const {link,type,title}=req.body;
-    const result = await ContentModel.updateMany(
-      { userId: req.userId }, 
+    const {contentId,link,type,title}=req.body;
+    const result = await ContentModel.findOneAndUpdate(
+      { _id:contentId, userId: req.userId }, 
       { link, type, title }
     );
  
 
     res.json({
-        message: 'All user content updated successfully'
+        message: 'one  content updated successfully'
     })
 
 
