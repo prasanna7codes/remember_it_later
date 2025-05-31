@@ -36,7 +36,7 @@ contentRouter.get('/view_me',async (req,res)=>{
 
     res.json({result})
 
-})
+})  
 
 //updating one content at a time
 contentRouter.put('/update_content',async (req,res)=>{
