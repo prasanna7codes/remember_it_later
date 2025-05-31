@@ -3,7 +3,7 @@ import signupRouter from './routes/signup';
 import signinRouter from './routes/signin';
 import contentRouter from './routes/content';
 import middleware from './middleware'
-import {LinkModel} from './db';
+import {LinkModel,ContentModel,UserModel} from './db';
 import random from './utils';
 import { Request, Response, NextFunction } from 'express';
 
@@ -64,6 +64,43 @@ app.post('/brain/share',asyncHandler(middleware),async (req,res)=>{
             message: "Removed link"
         })
     }
+
+})
+
+ 
+app.get("/api/v1/brain/:shareLink", async (req, res) => {
+    const hash = req.params.shareLink;
+
+    const link = await LinkModel.findOne({
+        hash
+    });
+
+    if (!link) {
+        res.status(411).json({
+            message: "Sorry incorrect input"
+        })
+        return;
+    }
+    // userId
+    const content = await ContentModel.find({
+        userId: link.userId
+    })
+
+    const user = await UserModel.findOne({
+        _id: link.userId
+    })
+
+    if (!user) {
+        res.status(411).json({
+            message: "user not found, error should ideally not happen"
+        })
+        return;
+    }
+
+    res.json({
+        username: user.username,
+        content: content
+    })
 
 })
 
