@@ -21,11 +21,19 @@ const contentSchema = new mongoose.Schema({
   userId: { type: Types.ObjectId, ref: 'User', required: true },
 });
 
+const linkSchema = new mongoose.Schema({
+  hash:{type : String},
+  userId: { type: Types.ObjectId, ref: 'User', required: true ,unique :true},
+
+})
+
 
 const UserModel = mongoose.model('User', userSchema);
 const TagModel = mongoose.model('Tag', tagSchema);
 const ContentModel = mongoose.model('Content', contentSchema);
+const LinkModel = mongoose.model('Link', linkSchema);
 
 
 
-export { UserModel,ContentModel };
+
+export { UserModel,ContentModel,LinkModel };

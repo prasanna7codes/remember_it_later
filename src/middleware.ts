@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { UserModel } from './db';
 const jwt_secret = "hello";
 
-
+// got this from chatgpt , will learn later 
 declare module 'express-serve-static-core' {
   interface Request {
     userId?: string;
@@ -16,7 +16,7 @@ async function middleware(req: Request, res: Response, next: NextFunction) {
   try {
     const token = req.headers.token as string;
     const decoded = jwt.verify(token, jwt_secret) as { _id: string };// i will get the data that i put during the jwt sign
-
+  
     if (decoded) {
       const user = await UserModel.findById(decoded._id);
       if (!user) {

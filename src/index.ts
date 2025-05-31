@@ -2,6 +2,13 @@ import express from 'express';
 import signupRouter from './routes/signup';
 import signinRouter from './routes/signin';
 import contentRouter from './routes/content';
+import middleware from './middleware'
+import {LinkModel} from './db';
+import random from './utils';
+import { Request, Response, NextFunction } from 'express';
+
+
+ 
 
 
 import dotenv from 'dotenv';
@@ -19,6 +26,33 @@ app.use('/signin', signinRouter);
 app.use('/content', contentRouter);
 
 
+// Wrap async middleware to handle errors , copilot helped here
+function asyncHandler(fn: (...args: any[]) => Promise<any>) {
+  return (req: Request, res: Response, next: NextFunction) =>
+    Promise.resolve(fn(req, res, next)).catch(next);
+}
+
+//creating a sharable link
+app.post('/brain/share',asyncHandler(middleware),async (req,res)=>{
+const share = req.body.share;
+if(share){
+    await LinkModel.create({
+        hash:random(10),
+        userId:req.userId
+    })
+
+}else{
+    await LinkModel.deleteOne({
+        userId: req.userId
+    })
+} 
+
+
+res.send("link updated ")
+
+
+
+})
 
 
 const uri = process.env.MONGODB;

@@ -30,8 +30,8 @@ signupRouter.post('/', async (req,res) => {
 
   if(user) {
 
-res.status(403).json({
-            message: "This email is alredy existing in our database" }) 
+res.status(403).json({ 
+            message: "This user is alredy existing in our database" }) 
 return 
   }
   else {

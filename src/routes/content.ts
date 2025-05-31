@@ -1,16 +1,17 @@
 import middleware from '../middleware'
 import { ContentModel } from '../db';
 
-import { Router } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 const contentRouter = Router ();
 
 
 
-// Wrap async middleware to handle errors , copilot helped here
-contentRouter.use((req, res, next) => {
-    Promise.resolve(middleware(req, res, next)).catch(next);
-});
+function asyncHandler(fn: (...args: any[]) => Promise<any>) {
+  return (req: Request, res: Response, next: NextFunction) =>
+    Promise.resolve(fn(req, res, next)).catch(next);
+}
 
+contentRouter.use(asyncHandler(middleware));
 
 //user sending data to the database 
 contentRouter.post('/',async (req,res)=>{
@@ -56,7 +57,7 @@ contentRouter.put('/update_content',async (req,res)=>{
 
 
 contentRouter.delete('/delete_content',async (req,res)=>{
-
+   
     const {contentId}=req.body;
     const result = await ContentModel.findOneAndDelete(
       { _id:contentId,
