@@ -20,13 +20,25 @@ import mongoose from 'mongoose'
 dotenv.config()
 
 const app = express();
-app.options('*', cors())
-app.use(cors({
-  origin: '*',
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE"]
 
+// Allow only your deployed frontend origin
+const allowedOrigins = [
+  'https://second-brain-cohort-frontend.vercel.app',
+  'http://localhost:5173' // optional, for local dev
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true, // if you're using cookies or auth headers
 }));
+
+app.options('*', cors());
 app.use(express.json());
 
 
