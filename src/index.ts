@@ -20,10 +20,12 @@ import mongoose from 'mongoose'
 dotenv.config()
 
 const app = express();
-
+app.options('*', cors())
 app.use(cors({
   origin: '*',
-  credentials: true
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"]
+
 }));
 app.use(express.json());
 
