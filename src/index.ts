@@ -24,7 +24,7 @@ const app = express();
 // Allow only your deployed frontend origin
 const allowedOrigins = [
   'https://second-brain-cohort-frontend.vercel.app',
-  'http://localhost:5173' // optional, for local dev
+  
 ];
 
 app.use(cors({
