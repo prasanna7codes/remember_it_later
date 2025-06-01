@@ -22,7 +22,7 @@ dotenv.config()
 const app = express();
 
 app.use(cors({
-  origin: 'https://second-brain-cohort-frontend.vercel.app/',
+  origin: 'https://second-brain-cohort-frontend.vercel.app',
   credentials: true
 }));
 app.use(express.json());
