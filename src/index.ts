@@ -6,6 +6,9 @@ import middleware from './middleware'
 import {LinkModel,ContentModel,UserModel} from './db';
 import random from './utils';
 import { Request, Response, NextFunction } from 'express';
+import cors from 'cors'
+
+
 
 
  
@@ -18,7 +21,12 @@ dotenv.config()
 
 const app = express();
 
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 app.use(express.json());
+
 
 
 app.use('/signup', signupRouter);
@@ -68,7 +76,7 @@ app.post('/brain/share',asyncHandler(middleware),async (req,res)=>{
 })
 
  
-app.get("/api/v1/brain/:shareLink", async (req, res) => {
+app.get("/brain/:shareLink", async (req, res) => {
     const hash = req.params.shareLink;
 
     const link = await LinkModel.findOne({

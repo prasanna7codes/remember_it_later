@@ -13,9 +13,14 @@ declare module 'express-serve-static-core' {
 
 
 async function middleware(req: Request, res: Response, next: NextFunction) {
+  console.log("Headers:", req.headers); // Add this line
   try {
-    const token = req.headers.token as string;
-    const decoded = jwt.verify(token, jwt_secret) as { _id: string };// i will get the data that i put during the jwt sign
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).send("No token provided");
+    }
+    const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : authHeader;
+    const decoded = jwt.verify(token, jwt_secret) as { _id: string };
   
     if (decoded) {
       const user = await UserModel.findById(decoded._id);

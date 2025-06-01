@@ -29,7 +29,7 @@ contentRouter.post('/',async (req,res)=>{
 })
 
 // user seeing its data 
-contentRouter.get('/view_me',async (req,res)=>{
+contentRouter.get('/',async (req,res)=>{
 
     const id= req.userId;
     const result = await ContentModel.find({userId:id})
@@ -39,7 +39,7 @@ contentRouter.get('/view_me',async (req,res)=>{
 })  
 
 //updating one content at a time
-contentRouter.put('/update_content',async (req,res)=>{
+contentRouter.put('/',async (req,res)=>{
 
     const {contentId,link,type,title}=req.body;
     const result = await ContentModel.findOneAndUpdate(
@@ -56,7 +56,7 @@ contentRouter.put('/update_content',async (req,res)=>{
 })
 
 
-contentRouter.delete('/delete_content',async (req,res)=>{
+contentRouter.delete('/',async (req,res)=>{
    
     const {contentId}=req.body;
     const result = await ContentModel.findOneAndDelete(

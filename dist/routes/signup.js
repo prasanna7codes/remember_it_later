@@ -19,20 +19,23 @@ const signupRouter = (0, express_1.Router)();
 signupRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const username = req.body.username;
     const password = req.body.password;
+    console.log('BODY:', req.body);
     //checking the username and password criteria are met 
     if (!/^[a-zA-Z]{3,10}$/.test(username)) {
         res.status(411).json({ message: 'Username must be 3–10 letters only' });
+        return;
     }
     if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/.test(password)) {
         res.status(411).json({
             message: 'Password must be 8–20 characters, include one uppercase, one lowercase, one number, and one special character',
         });
+        return;
     }
     //checking if the user exists 
     const user = yield db_1.UserModel.findOne({ username });
     if (user) {
         res.status(403).json({
-            message: "This email is alredy existing in our database"
+            message: "This user is alredy existing in our database"
         });
         return;
     }

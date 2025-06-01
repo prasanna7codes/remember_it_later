@@ -9,10 +9,13 @@ signupRouter.post('/', async (req,res) => {
     const username= req.body.username;
     const password= req.body.password;
 
+    console.log('BODY:', req.body);
+
     //checking the username and password criteria are met 
 
       if (!/^[a-zA-Z]{3,10}$/.test(username)) {
      res.status(411).json({ message: 'Username must be 3–10 letters only' });
+     return;
   }
 
   if (
@@ -22,6 +25,7 @@ signupRouter.post('/', async (req,res) => {
       message:
         'Password must be 8–20 characters, include one uppercase, one lowercase, one number, and one special character',
     });
+    return;
   }
   
 

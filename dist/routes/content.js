@@ -16,10 +16,10 @@ const middleware_1 = __importDefault(require("../middleware"));
 const db_1 = require("../db");
 const express_1 = require("express");
 const contentRouter = (0, express_1.Router)();
-// Wrap async middleware to handle errors , copilot helped here
-contentRouter.use((req, res, next) => {
-    Promise.resolve((0, middleware_1.default)(req, res, next)).catch(next);
-});
+function asyncHandler(fn) {
+    return (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next);
+}
+contentRouter.use(asyncHandler(middleware_1.default));
 //user sending data to the database 
 contentRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { link, type, title } = req.body;
@@ -29,13 +29,13 @@ contentRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function
     res.send("content created");
 }));
 // user seeing its data 
-contentRouter.get('/view_me', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+contentRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.userId;
     const result = yield db_1.ContentModel.find({ userId: id });
     res.json({ result });
 }));
 //updating one content at a time
-contentRouter.put('/update_content', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+contentRouter.put('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { contentId, link, type, title } = req.body;
     const result = yield db_1.ContentModel.findOneAndUpdate({ _id: contentId, userId: req.userId }, //this will check for the excat _id in the table and see if the user owns that or not 
     { link, type, title });
@@ -43,7 +43,7 @@ contentRouter.put('/update_content', (req, res) => __awaiter(void 0, void 0, voi
         message: 'one  content updated successfully'
     });
 }));
-contentRouter.delete('/delete_content', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+contentRouter.delete('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { contentId } = req.body;
     const result = yield db_1.ContentModel.findOneAndDelete({ _id: contentId,
         userId: req.userId });

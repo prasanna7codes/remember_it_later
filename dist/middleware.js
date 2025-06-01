@@ -17,9 +17,14 @@ const db_1 = require("./db");
 const jwt_secret = "hello";
 function middleware(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log("Headers:", req.headers); // Add this line
         try {
-            const token = req.headers.token;
-            const decoded = jsonwebtoken_1.default.verify(token, jwt_secret); // i will get the data that i put during the jwt sign
+            const authHeader = req.headers.authorization;
+            if (!authHeader) {
+                return res.status(401).send("No token provided");
+            }
+            const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : authHeader;
+            const decoded = jsonwebtoken_1.default.verify(token, jwt_secret);
             if (decoded) {
                 const user = yield db_1.UserModel.findById(decoded._id);
                 if (!user) {
