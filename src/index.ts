@@ -36,10 +36,11 @@ app.use(cors({
     }
   },
   credentials: true,
-  methods: "GET, PUT, POST, DELETE"
+  methods: "GET, PUT, POST, DELETE",
+  allowedHeaders: ['Content-Type', 'Authorization'] // Add this line
 }));
 
-//app.options('*', cors());
+app.options('*', cors()); // Enable preflight for all routes
 app.use(express.json());
 
 
