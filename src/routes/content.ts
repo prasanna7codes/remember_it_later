@@ -56,21 +56,12 @@ contentRouter.put('/',async (req,res)=>{
 })
 
 
-contentRouter.delete('/',async (req,res)=>{
-   
-    const {contentId}=req.body;
-    const result = await ContentModel.findOneAndDelete(
-      { _id:contentId,
-        userId: req.userId }, //this will check for the excat _id in the table and see if the user owns that or not 
-      
-    );
- 
-
-        res.json({ message: 'Content deleted successfully' });
-
-
-
-})
+contentRouter.delete('/:id', async (req, res) => {
+  const userId = req.userId;
+  const contentId = req.params.id;
+  await ContentModel.deleteOne({ _id: contentId, userId });
+  res.json({ message: "Content deleted" });
+});
 
 
 

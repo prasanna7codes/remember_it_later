@@ -43,10 +43,10 @@ contentRouter.put('/', (req, res) => __awaiter(void 0, void 0, void 0, function*
         message: 'one  content updated successfully'
     });
 }));
-contentRouter.delete('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { contentId } = req.body;
-    const result = yield db_1.ContentModel.findOneAndDelete({ _id: contentId,
-        userId: req.userId });
-    res.json({ message: 'Content deleted successfully' });
+contentRouter.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.userId;
+    const contentId = req.params.id;
+    yield db_1.ContentModel.deleteOne({ _id: contentId, userId });
+    res.json({ message: "Content deleted" });
 }));
 exports.default = contentRouter;
