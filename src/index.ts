@@ -38,7 +38,7 @@ app.use(cors({
   credentials: true, // if you're using cookies or auth headers
 }));
 
-app.options('*', cors());
+//app.options('*', cors());
 app.use(express.json());
 
 
