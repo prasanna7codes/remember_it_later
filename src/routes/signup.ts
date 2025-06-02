@@ -47,6 +47,8 @@ return
     username,password:hash
   })
     res.send("you are signed up ")
+    console.log("after signup")
+
 
   }
 

@@ -21,6 +21,9 @@ async function middleware(req: Request, res: Response, next: NextFunction) {
     }
     const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : authHeader;
     const decoded = jwt.verify(token, jwt_secret) as { _id: string };
+
+    console.log("after decoding")
+
   
     if (decoded) {
       const user = await UserModel.findById(decoded._id);

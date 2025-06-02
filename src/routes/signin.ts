@@ -36,6 +36,8 @@ signinRouter.post('/',async (req,res)=>{
         "message": "user does not exist "
     })
  }
+ console.log("after signin")
+
 
 
 

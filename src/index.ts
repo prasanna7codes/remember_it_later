@@ -28,9 +28,11 @@ app.use(cors({
   methods:['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
+console.log("after cors")
 
 //app.options('*', cors()); // Enable preflight for all routes
 app.use(express.json());
+console.log("after express")
 
 
 
@@ -39,6 +41,7 @@ app.use('/signup', signupRouter);
 app.use('/signin', signinRouter);
 app.use('/content', contentRouter);
 
+console.log("after routers")
 
 // Wrap async middleware to handle errors , copilot helped here
 function asyncHandler(fn: (...args: any[]) => Promise<any>) {
@@ -81,7 +84,8 @@ app.post('/brain/share',asyncHandler(middleware),async (req,res)=>{
 
 })
 
- 
+ console.log("after share brain")
+
 app.get("/brain/:shareLink", async (req, res) => {
     const hash = req.params.shareLink;
 
@@ -117,6 +121,7 @@ app.get("/brain/:shareLink", async (req, res) => {
     })
 
 })
+console.log("after share brain again")
 
 
 const uri = process.env.MONGODB;
@@ -126,6 +131,8 @@ async function main () {
 	throw new Error('MONGODB environment variable is not defined');
   }
   await mongoose.connect(uri);
+  console.log("before listening")
+
   app.listen(3000);
 }
 
