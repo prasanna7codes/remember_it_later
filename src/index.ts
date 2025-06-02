@@ -42,7 +42,7 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization',] // Add this line
 }));
 
-app.options('*', cors()); // Enable preflight for all routes
+//app.options('*', cors()); // Enable preflight for all routes
 console.log("after cors")
 
 //app.options('*', cors()); // Enable preflight for all routes
