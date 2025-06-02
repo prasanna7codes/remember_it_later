@@ -23,11 +23,26 @@ const app = express();
 
 
 
+// Allow only your deployed frontend origin
+const allowedOrigins = [
+  'https://second-brain-cohort-frontend.vercel.app',
+
+];
+
 app.use(cors({
-  origin: "*",
-  methods:['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: "GET, PUT, POST, DELETE",
+  allowedHeaders: ['Content-Type', 'Authorization',] // Add this line
 }));
+
+app.options('*', cors()); // Enable preflight for all routes
 console.log("after cors")
 
 //app.options('*', cors()); // Enable preflight for all routes
@@ -131,7 +146,7 @@ async function main () {
 	throw new Error('MONGODB environment variable is not defined');
   }
   await mongoose.connect(uri);
-  console.log("before listening")
+  console.log("before")
 
   app.listen(3000);
 }
