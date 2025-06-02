@@ -10,37 +10,34 @@ const jwt_secret="hello";
 
 
 signinRouter.post('/',async (req,res)=>{
- const {username,password} = req.body;
+  try {
+    const {username,password} = req.body;
 
- const user = await UserModel.findOne({username});
+    const user = await UserModel.findOne({username});
 
- if (user){
-   const present =  bcrypt.compareSync(password,user.password); 
-   if(present){
-
-    const token = jwt.sign({ _id: user._id }, jwt_secret);   
-     res.json({
-        "token":token
-    })
-    
-   } else{
-    res.json({
-        "message":"invalid password"
-    })
-   }
-
- }
-
- else{
-    res.json({
+    if (user){
+      const present =  bcrypt.compareSync(password,user.password); 
+      if(present){
+        const token = jwt.sign({ _id: user._id }, jwt_secret);   
+        res.json({
+          "token":token
+        })
+      } else{
+        res.json({
+          "message":"invalid password"
+        })
+      }
+    }
+    else{
+      res.json({
         "message": "user does not exist "
-    })
- }
- console.log("after signin")
-
-
-
-
+      })
+    }
+    console.log("after signin")
+  } catch (error) {
+    console.error("Signin error:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 })
 
 
