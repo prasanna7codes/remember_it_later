@@ -21,26 +21,13 @@ dotenv.config()
 
 const app = express();
 
-// Allow only your deployed frontend origin
-const allowedOrigins = [
-  'https://second-brain-cohort-frontend.vercel.app',
-  
-];
+
 
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-  methods: "GET, PUT, POST, DELETE",
-  allowedHeaders: ['Content-Type', 'Authorization'] // Add this line
-}));
-
-app.options('*', cors()); // Enable preflight for all routes
+  origin: "*",
+  methods:['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+})); 
 app.use(express.json());
 
 
