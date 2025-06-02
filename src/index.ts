@@ -29,7 +29,7 @@ app.use(cors({
   credentials: true
 }));
 
-app.options('*', cors()); // Enable preflight for all routes
+//app.options('*', cors()); // Enable preflight for all routes
 app.use(express.json());
 
 
